@@ -5,203 +5,221 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sporades</title>
 <style>
-  body { font-family: 'Comic Sans MS', cursive, sans-serif; margin:0; padding:0; background: #fff3e0; color:#333; }
-  header { background: linear-gradient(135deg,#ff8c00,#ffcc00); color:white; text-align:center; padding:40px 20px; box-shadow:0 4px 10px rgba(0,0,0,0.2);}
-  h1 { margin:0; font-size:3em; text-shadow: 2px 2px #ff3399; }
-  h2 { margin-top:0; color:#ff6600; }
-  section { padding:20px; max-width:1200px; margin:auto; }
-  .progress-container { background:#ddd; border-radius:25px; height:40px; width:100%; margin-top:10px; overflow:hidden; box-shadow:inset 0 0 5px rgba(0,0,0,0.2);}
-  .progress-bar { height:100%; border-radius:25px; background: linear-gradient(90deg,#ff0080,#ff80c0); width:0%; text-align:center; color:white; font-weight:bold; font-size:1.2em; line-height:40px; transition: width 1s ease-in-out; }
-  table { width:100%; border-collapse: collapse; margin-top:20px; }
-  th, td { padding:12px; text-align:center; border:1px solid #ccc; border-radius:8px; }
-  th { background: #ffb347; color:white; font-size:1.1em;}
-  input, textarea { padding:10px; margin:5px 0; width:100%; border-radius:8px; border:1px solid #ccc; font-size:1em; }
-  button { padding:10px 15px; background:#ff66b3; color:white; border:none; border-radius:8px; cursor:pointer; font-size:1em; }
-  button:hover { background:#ff3399; }
-  .comments { margin-top:20px; }
-  .comment-card { background:#ffe6f0; padding:15px; margin:10px 0; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
-  .gallery { display:flex; flex-wrap:wrap; gap:15px; margin-top:20px; justify-content:center; }
-  .gallery img { width:120px; height:120px; object-fit:cover; border-radius:12px; transition: transform 0.3s; }
-  .gallery img:hover { transform: scale(1.2); }
-  .badge { display:inline-block; padding:5px 10px; background:#ffcc00; color:#333; border-radius:12px; font-weight:bold; margin-left:5px;}
-  @media(max-width:600px){ .gallery img { width:80px; height:80px; } }
+body { font-family: 'Comic Sans MS', cursive, sans-serif; margin:0; padding:0; background:#fff3e0; color:#333; }
+header { background: linear-gradient(135deg,#ff8c00,#ffcc00); color:white; text-align:center; padding:40px 20px; box-shadow:0 4px 10px rgba(0,0,0,0.2);}
+h1 { margin:0; font-size:3em; text-shadow:2px 2px #ff3399; }
+h2 { margin-top:0; color:#ff6600; }
+section { padding:20px; max-width:1200px; margin:auto; }
+.progress-container { background:#ddd; border-radius:25px; height:40px; width:100%; margin-top:10px; overflow:hidden; box-shadow:inset 0 0 5px rgba(0,0,0,0.2);}
+.progress-bar { height:100%; border-radius:25px; background:linear-gradient(90deg,#ff0080,#ff80c0); width:0%; text-align:center; color:white; font-weight:bold; font-size:1.2em; line-height:40px; transition: width 1s ease-in-out; }
+.member-card { background:#ffe6f0; padding:15px; margin:10px 0; border-radius:12px; box-shadow:0 2px 5px rgba(0,0,0,0.1); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+.member-info { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.member-info img { width:60px; height:60px; border-radius:50%; object-fit:cover; }
+button { padding:8px 12px; background:#ff66b3; color:white; border:none; border-radius:8px; cursor:pointer; font-size:1em; }
+button:hover { background:#ff3399; }
+.badge { display:inline-block; padding:5px 10px; background:#ffcc00; color:#333; border-radius:12px; font-weight:bold; margin-left:5px; }
+.comments { margin-top:10px; width:100%; }
+.comment-card { background:#ffd1e0; padding:10px; margin:5px 0; border-radius:10px; }
+input,textarea { padding:8px; margin:5px 0; border-radius:8px; border:1px solid #ccc; width:100%; font-size:1em; }
+.gallery { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin-top:20px; }
+.gallery img { width:120px; height:120px; object-fit:cover; border-radius:12px; transition: transform 0.3s; }
+.gallery img:hover { transform:scale(1.2); }
+@media(max-width:600px){ .gallery img { width:80px; height:80px; } }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Sporades</h1>
-  <p>Συλλογή σπορακιών</p>
+<h1>Sporades</h1>
+<p>Συλλογή σπορακιών & Fun Dashboard</p>
 </header>
 
 <section>
-  <h2>Συνολικά Σποράκια: <span id="total">0</span>/1000</h2>
-  <div class="progress-container">
-    <div class="progress-bar" id="progressBar">0%</div>
-  </div>
+<h2>Συνολικά Σποράκια: <span id="total">0</span>/1000</h2>
+<div class="progress-container">
+<div class="progress-bar" id="progressBar">0%</div>
+</div>
 </section>
 
 <section>
-  <h2>Πίνακας Μελών</h2>
-  <table id="membersTable">
-    <thead>
-      <tr>
-        <th>Όνομα</th>
-        <th>Σποράκια</th>
-        <th>Ημερομηνία</th>
-        <th>Badge</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Δεδομένα θα εμφανίζονται εδώ -->
-    </tbody>
-  </table>
+<h2>Μέλη & Προφίλ</h2>
+<div id="membersContainer"></div>
 </section>
 
 <section>
-  <h2>Σχόλια & Βαθμολογίες</h2>
-  <form id="commentForm">
-    Όνομα: <input type="text" id="name" required placeholder="Το όνομά σου">
-    Βαθμολογία (1-5): <input type="number" id="rating" min="1" max="5" required>
-    Σχόλιο: <textarea id="comment" rows="2" placeholder="Το σχόλιό σου"></textarea>
-    <button type="submit">Αποθήκευση</button>
-  </form>
-  <div class="comments" id="commentsList"></div>
-</section>
-
-<section>
-  <h2>Gallery Σπορακιών</h2>
-  <div class="gallery" id="gallery">
-    <img src="https://via.placeholder.com/120" alt="Σποράκι 1">
-    <img src="https://via.placeholder.com/120" alt="Σποράκι 2">
-    <img src="https://via.placeholder.com/120" alt="Σποράκι 3">
-  </div>
+<h2>Gallery Σπορακιών</h2>
+<div class="gallery" id="gallery">
+<img src="https://via.placeholder.com/120" alt="Σποράκι 1">
+<img src="https://via.placeholder.com/120" alt="Σποράκι 2">
+<img src="https://via.placeholder.com/120" alt="Σποράκι 3">
+</div>
 </section>
 
 <script>
-  // ------------------------------
-  // Στατιστικά & Progress Bar
-  let totalSporakia = 0;
-  const maxSporakia = 1000;
-  const totalElem = document.getElementById('total');
-  const progressBar = document.getElementById('progressBar');
+// ------------------------------
+// Αρχικά μέλη
+let members = [
+{name:"Melina dhmhtriadh", jCode:"J001", sporakia:0, avatar:"https://via.placeholder.com/60"},
+{name:"margarita koytsompolh", jCode:"J002", sporakia:0, avatar:"https://via.placeholder.com/60"},
+{name:"giannis kapoylhtsas", jCode:"J003", sporakia:0, avatar:"https://via.placeholder.com/60"},
+{name:"nikolas gonidakhs", jCode:"J004", sporakia:0, avatar:"https://via.placeholder.com/60"},
+{name:"nikos kalogyrou", jCode:"J005", sporakia:0, avatar:"https://via.placeholder.com/60"},
+{name:"dhmhtrhs mpanagis", jCode:"J006", sporakia:0, avatar:"https://via.placeholder.com/60"},
+{name:"philipos mixas", jCode:"J007", sporakia:0, avatar:"https://via.placeholder.com/60"},
+{name:"giorgos rousshs", jCode:"J008", sporakia:0, avatar:"https://via.placeholder.com/60"}
+];
 
-  function updateProgress(){
-    totalElem.textContent = totalSporakia;
-    let percent = Math.min((totalSporakia / maxSporakia)*100,100);
-    progressBar.style.width = percent+'%';
-    progressBar.textContent = Math.round(percent)+'%';
-    if(percent >= 25 && percent < 50) progressBar.style.background = 'linear-gradient(90deg,#ff6666,#ffcc66)';
-    if(percent >= 50 && percent < 75) progressBar.style.background = 'linear-gradient(90deg,#66ff66,#66ccff)';
-    if(percent >= 75) progressBar.style.background = 'linear-gradient(90deg,#ff66ff,#66ffff)';
-    checkConfetti();
-  }
+// ------------------------------
+// Ανάκτηση απο localStorage
+if(localStorage.getItem("sporadesMembers")){
+members = JSON.parse(localStorage.getItem("sporadesMembers"));
+}
 
-  // ------------------------------
-  // Πίνακας μελών (demo)
-  const membersTable = document.getElementById('membersTable').querySelector('tbody');
-  const demoMembers = [
-    {name:'Βασιλης',sporakia:0,date:'2022-10-01',jcode: '5372},
-    {name:'Γιάννης',sporakia:0,date:'2023-10-07',jcode: '2918'},
-    {name:'Νικος',sporakia:0,date:'2024-5-03',jcode: '11212'},
-  ];
+// ------------------------------
+// Στατιστικά
+const totalElem = document.getElementById("total");
+const progressBar = document.getElementById("progressBar");
 
-  function getBadge(sporakia){
-    if(sporakia >= 80) return '🏆';
-    if(sporakia >= 50) return '🥇';
-    if(sporakia >= 30) return '🥈';
-    return '';
-  }
+function getBadge(sporakia){
+if(sporakia >= 80) return "🏆";
+if(sporakia >= 50) return "🥇";
+if(sporakia >= 30) return "🥈";
+return "";
+}
 
-  demoMembers.forEach(member=>{
-    const tr = document.createElement('tr');
-    const badge = getBadge(member.sporakia);
-    tr.innerHTML = `<td>${member.name}</td><td>${member.sporakia}</td><td>${member.date}</td><td>${badge}</td>`;
-    membersTable.appendChild(tr);
-    totalSporakia += member.sporakia;
-  });
-  updateProgress();
+function updateProgress(){
+let total = members.reduce((sum,m)=>sum+m.sporakia,0);
+totalElem.textContent = total;
+let percent = Math.min((total/1000)*100,100);
+progressBar.style.width = percent+"%";
+progressBar.textContent = Math.round(percent)+"%";
+if(percent >=25 && percent<50) progressBar.style.background="linear-gradient(90deg,#ff6666,#ffcc66)";
+if(percent >=50 && percent<75) progressBar.style.background="linear-gradient(90deg,#66ff66,#66ccff)";
+if(percent >=75) progressBar.style.background="linear-gradient(90deg,#ff66ff,#66ffff)";
+checkConfetti();
+}
 
-  // ------------------------------
-  // Σχόλια & βαθμολογίες
-  const form = document.getElementById('commentForm');
-  const commentsList = document.getElementById('commentsList');
+// ------------------------------
+// Confetti
+function createConfetti(){
+const confettiContainer=document.createElement("div");
+confettiContainer.style.position="fixed";
+confettiContainer.style.top="0";
+confettiContainer.style.left="0";
+confettiContainer.style.width="100%";
+confettiContainer.style.height="100%";
+confettiContainer.style.pointerEvents="none";
+confettiContainer.style.overflow="hidden";
+document.body.appendChild(confettiContainer);
+const colors=["#ff0080","#ff80c0","#66ff66","#66ccff","#ffcc66","#ff66ff"];
+for(let i=0;i<150;i++){
+const confetti=document.createElement("div");
+confetti.style.position="absolute";
+confetti.style.width="10px";
+confetti.style.height="10px";
+confetti.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+confetti.style.left=Math.random()*window.innerWidth+"px";
+confetti.style.top="-10px";
+confetti.style.opacity=Math.random()+0.5;
+confetti.style.transform=`rotate(${Math.random()*360}deg)`;
+confetti.style.borderRadius="50%";
+confettiContainer.appendChild(confetti);
+let duration=Math.random()*3+2;
+confetti.animate([{transform:`translateY(0px) rotate(${Math.random()*360}deg)`},{transform:`translateY(${window.innerHeight+50}px) rotate(${Math.random()*360}deg)`}],{duration:duration*1000,iterations:1});
+setTimeout(()=>{confetti.remove();},duration*1000);}
+setTimeout(()=>{confettiContainer.remove();},5500);
+}
 
-  function loadComments(){
-    const data = JSON.parse(localStorage.getItem('sporadesComments')||'{}');
-    commentsList.innerHTML = '';
-    for(let name in data){
-      const div = document.createElement('div');
-      div.className='comment-card';
-      const stars='★'.repeat(data[name].rating)+'☆'.repeat(5-data[name].rating);
-      div.innerHTML = `<strong>${name}</strong> (${stars}):<br>${data[name].comment}`;
-      commentsList.appendChild(div);
-    }
-  }
-  loadComments();
+function checkConfetti(){
+let milestones=[100,500,1000];
+let total=members.reduce((sum,m)=>sum+m.sporakia,0);
+if(milestones.includes(total)) createConfetti();
+}
 
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    const name = document.getElementById('name').value.trim();
-    const rating = parseInt(document.getElementById('rating').value);
-    const comment = document.getElementById('comment').value.trim();
-    if(!name || !rating || rating<1 || rating>5) return;
-    let data = JSON.parse(localStorage.getItem('sporadesComments')||'{}');
-    if(data[name]){
-      alert('Έχεις ήδη αποθηκεύσει σχόλιο για αυτό το άτομο.');
-      return;
-    }
-    data[name] = {rating,comment};
-    localStorage.setItem('sporadesComments',JSON.stringify(data));
-    form.reset();
-    loadComments();
-  });
+// ------------------------------
+// Render Members
+const membersContainer=document.getElementById("membersContainer");
 
-  // ------------------------------
-  // Confetti animation
-  function createConfetti(){
-    const confettiContainer = document.createElement('div');
-    confettiContainer.style.position = 'fixed';
-    confettiContainer.style.top = '0';
-    confettiContainer.style.left = '0';
-    confettiContainer.style.width = '100%';
-    confettiContainer.style.height = '100%';
-    confettiContainer.style.pointerEvents = 'none';
-    confettiContainer.style.overflow = 'hidden';
-    document.body.appendChild(confettiContainer);
+function renderMembers(){
+membersContainer.innerHTML="";
+members.forEach((m,index)=>{
+const div=document.createElement("div");
+div.className="member-card";
+div.innerHTML=`
+<div class="member-info">
+<img src="${m.avatar}" alt="${m.name}">
+<strong>${m.name}</strong> (${m.jCode}) 
+<span class="badge">${getBadge(m.sporakia)}</span>
+</div>
+<div>
+<button onclick="addSporakia(${index},1)">+1 Σποράκι</button>
+<input type="number" id="custom${index}" placeholder="Προσαρμογή" style="width:70px;">
+<button onclick="addSporakia(${index},parseInt(document.getElementById('custom${index}').value)||0)">Προσθήκη</button>
+</div>
+<div class="comments" id="comments${index}">
+</div>
+`;
+membersContainer.appendChild(div);
+renderComments(index);
+});
+updateProgress();
+saveMembers();
+}
 
-    const colors = ['#ff0080','#ff80c0','#66ff66','#66ccff','#ffcc66','#ff66ff'];
-    for(let i=0;i<150;i++){
-      const confetti = document.createElement('div');
-      confetti.style.position='absolute';
-      confetti.style.width='10px';
-      confetti.style.height='10px';
-      confetti.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
-      confetti.style.left=Math.random()*window.innerWidth+'px';
-      confetti.style.top='-10px';
-      confetti.style.opacity=Math.random()+0.5;
-      confetti.style.transform=`rotate(${Math.random()*360}deg)`;
-      confetti.style.borderRadius='50%';
-      confettiContainer.appendChild(confetti);
+// ------------------------------
+// Προσθήκη σπορακιών
+function addSporakia(index,num){
+members[index].sporakia += num;
+if(members[index].sporakia<0) members[index].sporakia=0;
+renderMembers();
+}
 
-      const fallDuration = Math.random()*3+2;
-      confetti.animate([
-        {transform: `translateY(0px) rotate(${Math.random()*360}deg)`},
-        {transform: `translateY(${window.innerHeight + 50}px) rotate(${Math.random()*360}deg)`}
-      ], {duration: fallDuration*1000, iterations:1});
-      setTimeout(()=>{ confetti.remove(); }, fallDuration*1000);
-    }
+// ------------------------------
+// Σχόλια
+function renderComments(index){
+const commentDiv=document.getElementById("comments"+index);
+commentDiv.innerHTML="";
+if(!members[index].comments) members[index].comments=[];
+members[index].comments.forEach(c=>{
+const div=document.createElement("div");
+div.className="comment-card";
+const stars="★".repeat(c.rating)+"☆".repeat(5-c.rating);
+div.innerHTML=`<strong>${c.name}</strong> (${stars}): ${c.text}`;
+commentDiv.appendChild(div);
+});
+const form=document.createElement("form");
+form.innerHTML=`
+<input type="text" placeholder="Το όνομά σου" required>
+<input type="number" min="1" max="5" placeholder="Βαθμολογία" required>
+<textarea placeholder="Σχόλιο"></textarea>
+<button type="submit">Αποθήκευση</button>
+`;
+form.addEventListener("submit",e=>{
+e.preventDefault();
+const name=form.querySelector("input[type=text]").value.trim();
+const rating=parseInt(form.querySelector("input[type=number]").value);
+const text=form.querySelector("textarea").value.trim();
+if(!name||!rating||rating<1||rating>5) return;
+if(members[index].comments.find(c=>c.name===name)){
+alert("Έχεις ήδη αποθηκεύσει σχόλιο για αυτό το άτομο."); return;
+}
+members[index].comments.push({name,rating,text});
+renderComments(index);
+saveMembers();
+});
+commentDiv.appendChild(form);
+}
 
-    setTimeout(()=>{ confettiContainer.remove(); }, 5500);
-  }
+// ------------------------------
+// Αποθήκευση στο localStorage
+function saveMembers(){
+localStorage.setItem("sporadesMembers",JSON.stringify(members));
+}
 
-  function checkConfetti(){
-    const milestones = [100,500,1000];
-    if(milestones.includes(totalSporakia)){
-      createConfetti();
-    }
-  }
+// ------------------------------
+// Αρχικό render
+renderMembers();
+
 </script>
-
 </body>
 </html>
