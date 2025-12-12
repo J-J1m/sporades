@@ -1,90 +1,117 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sporades Team</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #fdf6e3; color: #333; }
-    header { background: #4CAF50; color: white; text-align: center; padding: 20px; }
-    h1 { margin: 0; }
-    section { padding: 20px; }
-    .scoreboard { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    .scoreboard th, .scoreboard td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-    .scoreboard th { background-color: #4CAF50; color: white; }
-    .progress-bar { background: #ddd; border-radius: 5px; height: 20px; width: 100%; }
-    .progress { background: #4CAF50; height: 100%; border-radius: 5px; }
-    .gallery { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; justify-content: center; }
-    .gallery img { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; }
-    @media (max-width: 600px) {
-      .gallery img { width: 80px; height: 80px; }
-    }
-    input[type="text"], input[type="number"] { padding: 5px; margin: 5px; }
-    button { padding: 5px 10px; margin: 5px; background: #4CAF50; color: white; border: none; cursor: pointer; }
-    button:hover { background: #45a049; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sporakia Team</title>
+<style>
+  body { font-family: 'Comic Sans MS', cursive, sans-serif; margin:0; padding:0; background: #fffae3; color:#333; }
+  header { background: linear-gradient(90deg,#ff8c00,#ffcc00); color:white; text-align:center; padding:20px; }
+  h1 { margin:0; font-size:2em; }
+  section { padding:20px; }
+  .progress-container { background:#ddd; border-radius:20px; height:30px; width:100%; margin-top:10px; }
+  .progress-bar { height:100%; border-radius:20px; background: linear-gradient(90deg,#ff0080,#ff80c0); width:0%; text-align:center; color:white; font-weight:bold; transition: width 1s ease-in-out; }
+  .scoreboard, .comments { margin-top:20px; }
+  table { width:100%; border-collapse: collapse; }
+  th, td { padding:8px; text-align:center; border:1px solid #ccc; border-radius:5px; }
+  th { background: #ffb347; color:white; }
+  input, textarea { padding:5px; margin:5px 0; width:100%; border-radius:5px; border:1px solid #ccc; }
+  button { padding:5px 10px; background:#ff66b3; color:white; border:none; border-radius:5px; cursor:pointer; }
+  button:hover { background:#ff3399; }
+  .gallery { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; justify-content:center; }
+  .gallery img { width:100px; height:100px; object-fit:cover; border-radius:10px; }
+  @media(max-width:600px){ .gallery img { width:80px; height:80px; } }
+</style>
 </head>
 <body>
-  <header>
-    <h1>Ομάδα Sporades</h1>
-    <p>Συλλογή χαρουπιών & scoreboard</p>
-  </header>
 
-  <section>
-    <h2>Scoreboard</h2>
-    <form id="scoreForm">
-      Όνομα: <input type="text" id="player" required>
-      Χαρούπια: <input type="number" id="haroupia" required min="1">
-      <button type="submit">Προσθήκη</button>
-    </form>
+<header>
+  <h1>Ομάδα Sporakia</h1>
+  <p>Συλλογή σπορακιών & Fun Scoreboard</p>
+</header>
 
-    <table class="scoreboard" id="scoreboard">
-      <thead>
-        <tr>
-          <th>Όνομα</th>
-          <th>Χαρούπια</th>
-          <th>Πρόοδος</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Τα δεδομένα θα μπουν εδώ -->
-      </tbody>
-    </table>
-  </section>
+<section>
+  <h2>Συνολικά Σποράκια: <span id="total">0</span>/1000</h2>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar">0%</div>
+  </div>
+</section>
 
-  <section>
-    <h2>Gallery</h2>
-    <div class="gallery" id="gallery">
-      <img src="https://via.placeholder.com/100" alt="Χαρούπι 1">
-      <img src="https://via.placeholder.com/100" alt="Χαρούπι 2">
-      <img src="https://via.placeholder.com/100" alt="Χαρούπι 3">
-    </div>
-  </section>
+<section>
+  <h2>Σχόλια & Βαθμολογίες</h2>
+  <form id="commentForm">
+    Όνομα: <input type="text" id="name" required placeholder="Το όνομά σου">
+    Βαθμολογία (1-5): <input type="number" id="rating" min="1" max="5" required>
+    Σχόλιο: <textarea id="comment" rows="2" placeholder="Το σχόλιό σου"></textarea>
+    <button type="submit">Αποθήκευση</button>
+  </form>
+  <div class="comments" id="commentsList"></div>
+</section>
 
-  <script>
-    const form = document.getElementById('scoreForm');
-    const tbody = document.getElementById('scoreboard').querySelector('tbody');
+<section>
+  <h2>Gallery Σπορακιών</h2>
+  <div class="gallery" id="gallery">
+    <img src="https://via.placeholder.com/100" alt="Σποράκι 1">
+    <img src="https://via.placeholder.com/100" alt="Σποράκι 2">
+    <img src="https://via.placeholder.com/100" alt="Σποράκι 3">
+  </div>
+</section>
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = document.getElementById('player').value.trim();
-      const haroupia = parseInt(document.getElementById('haroupia').value);
-      if(name && haroupia > 0) {
-        const percent = Math.min((haroupia / 50) * 100, 100); // max 50 χαρούπια για 100%
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${name}</td>
-          <td>${haroupia}</td>
-          <td>
-            <div class="progress-bar">
-              <div class="progress" style="width: ${percent}%;"></div>
-            </div>
-          </td>
-        `;
-        tbody.appendChild(row);
-        form.reset();
-      }
-    });
-  </script>
+<script>
+  // ------------------------------
+  // Ρύθμιση συνολικού στόχου
+  let totalSporakia = 250; // <-- Εδώ ρυθμίζεις εσύ τον αριθμό που έχετε
+  const maxSporakia = 1000;
+  const totalElem = document.getElementById('total');
+  const progressBar = document.getElementById('progressBar');
+
+  function updateProgress(){
+    totalElem.textContent = totalSporakia;
+    let percent = Math.min((totalSporakia / maxSporakia)*100,100);
+    progressBar.style.width = percent+'%';
+    progressBar.textContent = Math.round(percent)+'%';
+  }
+  updateProgress();
+
+  // ------------------------------
+  // Σχόλια & βαθμολογίες (μία φορά ανά όνομα, αποθηκεύονται στο localStorage)
+  const form = document.getElementById('commentForm');
+  const commentsList = document.getElementById('commentsList');
+
+  function loadComments(){
+    const data = JSON.parse(localStorage.getItem('sporakiaComments')||'{}');
+    commentsList.innerHTML = '';
+    for(let name in data){
+      const div = document.createElement('div');
+      div.style.background = '#ffe6f0';
+      div.style.padding = '10px';
+      div.style.margin = '5px 0';
+      div.style.borderRadius = '10px';
+      div.innerHTML = `<strong>${name}</strong> (Βαθμός: ${data[name].rating}): <br>${data[name].comment}`;
+      commentsList.appendChild(div);
+    }
+  }
+  loadComments();
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const rating = parseInt(document.getElementById('rating').value);
+    const comment = document.getElementById('comment').value.trim();
+
+    if(!name || !rating || rating<1 || rating>5) return;
+
+    let data = JSON.parse(localStorage.getItem('sporakiaComments')||'{}');
+    if(data[name]){
+      alert('Έχεις ήδη αποθηκεύσει σχόλιο για αυτό το άτομο.');
+      return;
+    }
+    data[name] = {rating,comment};
+    localStorage.setItem('sporakiaComments',JSON.stringify(data));
+    form.reset();
+    loadComments();
+  });
+</script>
+
 </body>
 </html>
