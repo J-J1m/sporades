@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sporades Team</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #fdf6e3; color: #333; }
+    header { background: #4CAF50; color: white; text-align: center; padding: 20px; }
+    h1 { margin: 0; }
+    section { padding: 20px; }
+    .scoreboard { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    .scoreboard th, .scoreboard td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    .scoreboard th { background-color: #4CAF50; color: white; }
+    .progress-bar { background: #ddd; border-radius: 5px; height: 20px; width: 100%; }
+    .progress { background: #4CAF50; height: 100%; border-radius: 5px; }
+    .gallery { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; justify-content: center; }
+    .gallery img { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; }
+    @media (max-width: 600px) {
+      .gallery img { width: 80px; height: 80px; }
+    }
+    input[type="text"], input[type="number"] { padding: 5px; margin: 5px; }
+    button { padding: 5px 10px; margin: 5px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+    button:hover { background: #45a049; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Ομάδα Sporades</h1>
+    <p>Συλλογή χαρουπιών & scoreboard</p>
+  </header>
+
+  <section>
+    <h2>Scoreboard</h2>
+    <form id="scoreForm">
+      Όνομα: <input type="text" id="player" required>
+      Χαρούπια: <input type="number" id="haroupia" required min="1">
+      <button type="submit">Προσθήκη</button>
+    </form>
+
+    <table class="scoreboard" id="scoreboard">
+      <thead>
+        <tr>
+          <th>Όνομα</th>
+          <th>Χαρούπια</th>
+          <th>Πρόοδος</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Τα δεδομένα θα μπουν εδώ -->
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Gallery</h2>
+    <div class="gallery" id="gallery">
+      <img src="https://via.placeholder.com/100" alt="Χαρούπι 1">
+      <img src="https://via.placeholder.com/100" alt="Χαρούπι 2">
+      <img src="https://via.placeholder.com/100" alt="Χαρούπι 3">
+    </div>
+  </section>
+
+  <script>
+    const form = document.getElementById('scoreForm');
+    const tbody = document.getElementById('scoreboard').querySelector('tbody');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('player').value.trim();
+      const haroupia = parseInt(document.getElementById('haroupia').value);
+      if(name && haroupia > 0) {
+        const percent = Math.min((haroupia / 50) * 100, 100); // max 50 χαρούπια για 100%
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${name}</td>
+          <td>${haroupia}</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: ${percent}%;"></div>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(row);
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>
