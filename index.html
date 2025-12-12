@@ -67,13 +67,13 @@ let members = [
 ];
 
 // ------------------------------
-// Στοιχεία DOM
+// DOM
 const totalElem = document.getElementById("total");
 const progressBar = document.getElementById("progressBar");
 const membersContainer = document.getElementById("membersContainer");
 
 // ------------------------------
-// Badges ανά σποράκια
+// Badges
 function getBadge(sporakia){
 if(sporakia>=80) return "🏆";
 if(sporakia>=50) return "🥇";
@@ -82,7 +82,7 @@ return "";
 }
 
 // ------------------------------
-// Δημιουργία confetti
+// Confetti
 function createConfetti(){
 const confettiContainer=document.createElement("div");
 confettiContainer.style.position="fixed";
@@ -190,6 +190,7 @@ borderWidth:1
 },
 options:{
 responsive:true,
+animation:{duration:1000,easing:'easeOutQuart'},
 plugins:{
 legend:{display:false},
 tooltip:{enabled:true}
@@ -199,7 +200,7 @@ y:{beginAtZero:true,title:{display:true,text:'Σποράκια'}},
 x:{title:{display:true,text:'Μέλη'}}
 }
 }
-);
+});
 
 // ------------------------------
 // Ενημέρωση chart
