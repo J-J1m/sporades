@@ -1,19 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 body {
-  font-family: Arial;
-  background: linear-gradient(135deg,#0b7a3e,#4bd58f);
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg,#1e7d3b,#47c97b);
   color: white;
   text-align: center;
+  margin: 0;
 }
 
-h1 {
-  font-size: 50px;
-  margin: 20px;
+header {
+  padding: 20px;
+  background: linear-gradient(135deg,#ff6384,#ffce56);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
+
+h1 { font-size: 50px; margin: 0; }
+h2 { font-size: 28px; margin: 10px 0; }
+h3 { font-size: 20px; margin: 5px 0; }
 
 .box {
   background: rgba(0,0,0,0.25);
   padding: 25px;
-  margin: 30px auto;
+  margin: 25px auto;
   width: 90%;
   max-width: 750px;
   border-radius: 25px;
@@ -28,10 +36,16 @@ select, input {
 }
 
 button {
-  padding: 12px 30px;
-  font-size: 20px;
+  padding: 12px 25px;
+  font-size: 18px;
   border-radius: 12px;
   border: none;
   cursor: pointer;
   background: #ffe600;
+  font-weight: bold;
+}
+
+footer {
+  margin: 20px;
+  font-size: 18px;
 }
