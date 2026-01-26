@@ -2,217 +2,37 @@
 <html lang="el">
 <head>
 <meta charset="UTF-8">
+<title>Sporades</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sporades Dashboard</title>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
-body { font-family: 'Arial', sans-serif; margin:0; padding:0; background:#f0f8ff; }
-header { background: linear-gradient(135deg,#ff8c00,#ff66ff); color:white; text-align:center; padding:30px 20px; box-shadow:0 4px 10px rgba(0,0,0,0.2); }
-header h1 { margin:0; font-size:2.5em; text-shadow:2px 2px #333; }
-section { padding:20px; max-width:1200px; margin:auto; }
-.progress-container { background:#ddd; border-radius:25px; height:30px; width:100%; margin:10px 0; overflow:hidden; box-shadow:inset 0 2px 5px rgba(0,0,0,0.2);}
-.progress-bar { height:100%; border-radius:25px; width:0%; text-align:center; color:white; font-weight:bold; line-height:30px; transition: width 0.8s, background 0.8s; }
-.member-card { background: linear-gradient(135deg,#ffb6c1,#ff69b4); padding:15px; margin:10px 0; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.2); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; }
-.member-info { display:flex; align-items:center; gap:15px; flex-wrap:wrap; }
-.member-info img { width:60px; height:60px; border-radius:50%; object-fit:cover; border:2px solid white; box-shadow:0 2px 5px rgba(0,0,0,0.2);}
-button { padding:8px 12px; background:#ff3399; color:white; border:none; border-radius:10px; cursor:pointer; font-size:1em; margin-left:5px; }
-button:hover { background:#ff0080; }
-canvas { margin-top:30px; background:white; border-radius:12px; padding:10px; box-shadow:0 4px 10px rgba(0,0,0,0.2); }
-.reset-btn { background:#ff3333; margin-top:15px; }
-.reset-btn:hover { background:#cc0000; }
-.badge { display:inline-block; padding:4px 10px; background:#ffcc00; color:#333; border-radius:12px; font-weight:bold; margin-left:5px; }
+body{font-family:Arial;background:#f0f6ff;margin:0}
+header{background:linear-gradient(135deg,#ff0080,#ffcc00);color:white;text-align:center;padding:25px}
+.card{background:white;margin:15px;padding:15px;border-radius:15px;box-shadow:0 3px 10px rgba(0,0,0,.15)}
+button{padding:6px 12px;border:none;border-radius:8px;background:#ff0080;color:white;cursor:pointer}
+button:hover{opacity:.85}
 </style>
 </head>
+
 <body>
 
 <header>
-<h1>Sporades Dashboard</h1>
-<p>Δες τα σποράκια κάθε μέλους!</p>
+<h1>🌱 SPORADES</h1>
+<p>Συλλογή σπορακιών</p>
 </header>
 
-<section>
-<h2>Συνολικά Σποράκια: <span id="total">0</span>/1000</h2>
-<div class="progress-container">
-  <div class="progress-bar" id="progressBar">0%</div>
+<div class="card">
+<h3>Σύνολο: <span id="total">0</span> / 1000</h3>
 </div>
-<button class="reset-btn" onclick="resetSporakia()">Reset Όλων</button>
-</section>
 
-<section>
-<h2>Μέλη</h2>
-<div id="membersContainer"></div>
-</section>
+<div class="card" id="members"></div>
 
-<section>
-<h2>Ραβδόγραμμα Σπορακιών</h2>
-<canvas id="sporadesChart" width="800" height="400"></canvas>
-</section>
-
-<script>
-// ------------------------------
-// Τυχαίοι 4ψήφιοι jCodes
-function randomCode(){ return Math.floor(1000+Math.random()*9000); }
-
-// ------------------------------
-// Αρχικά μέλη
-let members = [
-{name:"Melina dhmhtriadh", jCode:randomCode(), sporakia:0, avatar:"https://via.placeholder.com/60"},
-{name:"margarita koytsompolh", jCode:randomCode(), sporakia:0, avatar:"https://via.placeholder.com/60"},
-{name:"giannis kapoylhtsas", jCode:randomCode(), sporakia:0, avatar:"https://via.placeholder.com/60"},
-{name:"nikolas gonidakhs", jCode:randomCode(), sporakia:0, avatar:"https://via.placeholder.com/60"},
-{name:"nikos kalogyrou", jCode:randomCode(), sporakia:0, avatar:"https://via.placeholder.com/60"},
-{name:"dhmhtrhs mpanagis", jCode:randomCode(), sporakia:0, avatar:"https://via.placeholder.com/60"},
-{name:"philipos mixas", jCode:randomCode(), sporakia:0, avatar:"https://via.placeholder.com/60"},
-{name:"giorgos rousshs", jCode:randomCode(), sporakia:0, avatar:"https://via.placeholder.com/60"}
-];
-
-// ------------------------------
-// DOM
-const totalElem = document.getElementById("total");
-const progressBar = document.getElementById("progressBar");
-const membersContainer = document.getElementById("membersContainer");
-
-// ------------------------------
-// Badges
-function getBadge(sporakia){
-if(sporakia>=80) return "🏆";
-if(sporakia>=50) return "🥇";
-if(sporakia>=30) return "🥈";
-return "";
-}
-
-// ------------------------------
-// Confetti
-function createConfetti(){
-const confettiContainer=document.createElement("div");
-confettiContainer.style.position="fixed";
-confettiContainer.style.top="0";
-confettiContainer.style.left="0";
-confettiContainer.style.width="100%";
-confettiContainer.style.height="100%";
-confettiContainer.style.pointerEvents="none";
-confettiContainer.style.overflow="hidden";
-document.body.appendChild(confettiContainer);
-const colors=["#ff0080","#ff80c0","#66ff66","#66ccff","#ffcc66","#ff66ff"];
-for(let i=0;i<150;i++){
-const confetti=document.createElement("div");
-confetti.style.position="absolute";
-confetti.style.width="10px";
-confetti.style.height="10px";
-confetti.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
-confetti.style.left=Math.random()*window.innerWidth+"px";
-confetti.style.top="-10px";
-confetti.style.opacity=Math.random()+0.5;
-confetti.style.transform=`rotate(${Math.random()*360}deg)`;
-confetti.style.borderRadius="50%";
-confettiContainer.appendChild(confetti);
-let duration=Math.random()*3+2;
-confetti.animate([{transform:`translateY(0px) rotate(${Math.random()*360}deg)`},{transform:`translateY(${window.innerHeight+50}px) rotate(${Math.random()*360}deg)`}],{duration:duration*1000,iterations:1});
-setTimeout(()=>{confetti.remove();},duration*1000);}
-setTimeout(()=>{confettiContainer.remove();},5500);
-}
-
-function checkConfetti(){
-let milestones=[100,500,1000];
-let total=members.reduce((sum,m)=>sum+m.sporakia,0);
-if(milestones.includes(total)) createConfetti();
-}
-
-// ------------------------------
-// Render μέλη
-function renderMembers(){
-membersContainer.innerHTML="";
-members.forEach((m,index)=>{
-const div=document.createElement("div");
-div.className="member-card";
-div.innerHTML=`
-<div class="member-info">
-<img src="${m.avatar}" alt="${m.name}">
-<strong>${m.name}</strong> (${m.jCode}) 
-<span class="badge">${getBadge(m.sporakia)}</span>
+<div class="card">
+<canvas id="chart"></canvas>
 </div>
-<div>
-<button onclick="addSporakia(${index},1)">+1 Σποράκι</button>
-<input type="number" id="custom${index}" placeholder="Προσαρμογή" style="width:70px;">
-<button onclick="addSporakia(${index},parseInt(document.getElementById('custom${index}').value)||0)">Προσθήκη</button>
-</div>
-`;
-membersContainer.appendChild(div);
-});
-updateProgress();
-updateChart();
-}
 
-// ------------------------------
-// Προσθήκη σπορακιών
-function addSporakia(index,num){
-members[index].sporakia += num;
-if(members[index].sporakia<0) members[index].sporakia=0;
-renderMembers();
-}
-
-// ------------------------------
-// Reset
-function resetSporakia(){
-members.forEach(m=>m.sporakia=0);
-renderMembers();
-}
-
-// ------------------------------
-// Progress bar
-function updateProgress(){
-let total = members.reduce((sum,m)=>sum+m.sporakia,0);
-totalElem.textContent = total;
-let percent = Math.min((total/1000)*100,100);
-progressBar.style.width = percent+"%";
-progressBar.textContent = Math.round(percent)+"%";
-if(percent >=25 && percent<50) progressBar.style.background="linear-gradient(90deg,#ff6666,#ffcc66)";
-if(percent >=50 && percent<75) progressBar.style.background="linear-gradient(90deg,#66ff66,#66ccff)";
-if(percent >=75) progressBar.style.background="linear-gradient(90deg,#ff66ff,#66ffff)";
-checkConfetti();
-}
-
-// ------------------------------
-// Chart.js
-const ctx = document.getElementById('sporadesChart').getContext('2d');
-let chartColors = members.map(()=>`hsl(${Math.random()*360},70%,60%)`);
-let sporadesChart = new Chart(ctx, {
-type:'bar',
-data:{
-labels: members.map(m=>m.name),
-datasets:[{
-label:'Σποράκια',
-data: members.map(m=>m.sporakia),
-backgroundColor: chartColors,
-borderColor: chartColors.map(c=>c.replace('60%','40%')),
-borderWidth:1
-}]
-},
-options:{
-responsive:true,
-animation:{duration:1000,easing:'easeOutQuart'},
-plugins:{
-legend:{display:false},
-tooltip:{enabled:true}
-},
-scales:{
-y:{beginAtZero:true,title:{display:true,text:'Σποράκια'}},
-x:{title:{display:true,text:'Μέλη'}}
-}
-}
-});
-
-// ------------------------------
-// Ενημέρωση chart
-function updateChart(){
-sporadesChart.data.datasets[0].data = members.map(m=>m.sporakia);
-sporadesChart.update();
-}
-
-// ------------------------------
-// Αρχικό render
-renderMembers();
-
-</script>
+<script src="script.js"></script>
 </body>
 </html>
