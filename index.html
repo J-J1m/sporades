@@ -1,37 +1,76 @@
-<!DOCTYPE html>
-<html lang="el">
-<head>
-<meta charset="UTF-8">
-<title>SPORADES</title>
+const players = [
+ "Μελίνα Δημητριάδη",
+ "Μαργαρίτα Κουτσομπολή",
+ "Γιάννης Καπουλίτσας",
+ "Νικόλας Γονιδάκης",
+ "Νίκος Καλογήρου",
+ "Δημήτρης Μπανάγης",
+ "Φίλιππος Μίχας",
+ "Γιώργος Ρούσσης",
+ "Παναγιώτης 4ης"  // νέο όνομα
+];
 
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+// αρχικά 0
+let data = JSON.parse(localStorage.getItem("sporades"));
 
-<body>
+if (!data) {
+  data = {};
+  players.forEach(p => data[p] = 0);
+}
 
-<h1>🌱 SPORADES</h1>
+localStorage.setItem("sporades", JSON.stringify(data));
 
-<div class="box">
-  <h2>Συνολικά Σποράκια</h2>
-  <div id="total">0</div>
-</div>
+const select = document.getElementById("player");
+select.innerHTML = "";  // καθαρίζουμε πρώτα
+players.forEach(p => {
+  const o = document.createElement("option");
+  o.textContent = p;
+  select.appendChild(o);
+});
 
-<div class="box">
-  <canvas id="chart"></canvas>
-</div>
+let chart;
 
-<div class="box">
-  <h3>Προσθήκη σπορακίων</h3>
+function add() {
+  const name = select.value;
+  const value = Number(document.getElementById("amount").value);
 
-  <select id="player"></select>
+  if (!value) return;
 
-  <input type="number" id="amount" placeholder="Πόσα σποράκια;">
-  <br><br>
+  data[name] += value;
 
-  <button onclick="add()">➕ Προσθήκη</button>
-</div>
+  localStorage.setItem("sporades", JSON.stringify(data));
+  draw();
+}
 
-<script src="script.js"></script>
-</body>
-</html>
+function draw() {
+  const labels = Object.keys(data);
+  const values = Object.values(data);
+
+  const total = values.reduce((a,b)=>a+b,0);
+  document.getElementById("total").innerText = total;
+
+  if (chart) chart.destroy();
+
+  chart = new Chart(document.getElementById("chart"), {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{
+        label: "Σποράκια",
+        data: values,
+        backgroundColor: [
+          "#ff6384","#36a2eb","#ffce56","#4bc0c0",
+          "#9966ff","#ff9f40","#c9cbcf","#8dd17e","#ff5c7a"
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+}
+
+draw();
